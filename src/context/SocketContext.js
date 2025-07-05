@@ -7,9 +7,11 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const newSocket = io('https://realtime-todo-app.onrender.com/');
-     transports: ['websocket', 'polling'],    
-  withCredentials: true,
+    const newSocket = io('https://realtime-todo-app.onrender.com', {
+      transports: ['websocket', 'polling'],     
+      withCredentials: true,                  
+    });
+
     setSocket(newSocket);
 
     return () => newSocket.disconnect();
