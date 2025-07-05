@@ -208,7 +208,16 @@ export default function Dashboard() {
                             className="bg-white border border-gray-300 rounded-xl p-4 mb-4 shadow hover:shadow-lg transform hover:scale-[1.02] transition"
                           >
                             <h4 className="font-semibold text-gray-800 mb-1">{task.title}</h4>
-                            <p className="text-sm text-gray-600 mb-3">{task.description}</p>
+                            <p className="text-sm text-gray-600 mb-2">{task.description}</p>
+
+                            {/* 👤 Assigned To */}
+                            <p className="text-xs text-gray-500 mb-3 italic">
+                              Assigned To:{' '}
+                              <span className="font-medium text-gray-700">
+                                {task.assignedUser?.username || 'Unassigned'}
+                              </span>
+                            </p>
+
                             <div className="flex space-x-3 text-xs">
                               <button onClick={() => handleSmartAssign(task._id)} className="text-blue-600 hover:text-blue-800 font-medium">Smart Assign</button>
                               <button onClick={() => openEditModal(task)} className="text-green-600 hover:text-green-800 font-medium">Edit</button>
