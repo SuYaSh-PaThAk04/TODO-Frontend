@@ -12,7 +12,8 @@ function LoginPage() {
     try {
     const success = await login(email, password);
   if (success) {
-    navigate('/board');
+    navigate('/');
+    window.location.reload();
     console.log("Login successfull");
   } else {
     alert('Login failed');
