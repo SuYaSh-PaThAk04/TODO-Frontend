@@ -8,6 +8,8 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     const newSocket = io('https://realtime-todo-app.onrender.com/');
+     transports: ['websocket', 'polling'],    
+  withCredentials: true,
     setSocket(newSocket);
 
     return () => newSocket.disconnect();
