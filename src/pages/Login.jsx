@@ -1,25 +1,30 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+
 function LoginPage() {
   const { login } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-    const success = await login(email, password);
-  if (success) {
-    navigate('/');
-    window.location.reload();
-    console.log("Login successfull");
-  } else {
-    alert('Login failed');
-  }
+      const success = await login(email, password);
+      if (success) {
+        navigate('/');
+        window.location.reload();
+        console.log("Login successful");
+      } else {
+        alert('Login failed');
+      }
     } catch (err) {
       alert(err.response?.data?.message || 'Login failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -36,6 +41,7 @@ function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full border rounded p-2"
               required
+              disabled={loading}
             />
           </div>
           <div className="mb-4">
@@ -46,14 +52,24 @@ function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full border rounded p-2"
               required
+              disabled={loading}
             />
           </div>
-          <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded">
-            Login
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full p-2 rounded text-white ${
+              loading
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-blue-500 hover:bg-blue-600'
+            }`}
+          >
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-             <p className="mt-4 text-sm text-center text-gray-600">
-            New User?{''}
+
+        <p className="mt-4 text-sm text-center text-gray-600">
+          New User?{' '}
           <span
             className="text-blue-500 cursor-pointer hover:underline"
             onClick={() => navigate('/register')}
@@ -66,4 +82,5 @@ function LoginPage() {
   );
 }
 
-export default LoginPage ;
+export default LoginPage;
+
